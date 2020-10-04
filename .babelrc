@@ -1,4 +1,11 @@
 {
-  "plugins": ["add-module-exports"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./"]
+      }
+    ]
+  ],
   "presets": [["@babel/preset-env"]]
 }
