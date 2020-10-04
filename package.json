@@ -1,0 +1,37 @@
+{
+  "name": "busy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "format": "npx standard --fix | echo 'Fixed Everything I could.'",
+    "compile": "npx babel src --out-dir dist",
+    "dev": "concurrently 'npm run compile -- --watch' 'npm run dev:server'",
+    "dev:server": "nodemon --exec 'npx ftrouter -d dist/routes'",
+    "start": "npx ftrouter -d dist/routes"
+  },
+  "dependencies": {
+    "ftrouter": "barelyhuman/ftrouter#0.0.2-dev.2",
+    "knex": "^0.21.6",
+    "pg": "^8.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "concurrently": "^5.2.0",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "nodemon": "^2.0.4"
+  },
+  "lint-staged": {
+    "*": "npm run format"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
