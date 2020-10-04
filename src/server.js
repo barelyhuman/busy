@@ -2,7 +2,7 @@ import app from 'ftrouter'
 import http from 'http'
 import path from 'path'
 import bodyParser from 'body-parser'
-import runMiddleware from 'lib/server/run-middleware'
+import runMiddleware from 'lib/run-middleware'
 
 const PORT = process.env.PORT || 3000
 

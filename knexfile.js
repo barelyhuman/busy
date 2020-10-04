@@ -1,24 +1,17 @@
-// Update with your config settings.
-
 module.exports = {
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'busy',
       user: 'admin',
       password: 'root'
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
       tableName: 'knex_migrations'
     }
   },
-
   staging: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'my_db',
       user: 'username',
@@ -34,7 +27,7 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'my_db',
       user: 'username',

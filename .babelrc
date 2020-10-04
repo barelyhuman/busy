@@ -3,9 +3,31 @@
     [
       "module-resolver",
       {
-        "root": ["./"]
+        "root": ["./src"]
+      }
+    ],
+    [
+      "@babel/plugin-transform-regenerator",
+      {
+        "async": false
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": false,
+        "regenerator": true
       }
     ]
   ],
-  "presets": [["@babel/preset-env"]]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ]
 }
