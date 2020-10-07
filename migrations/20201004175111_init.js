@@ -102,7 +102,6 @@ exports.up = function (knex) {
       table.integer('seats').notNullable()
       table.decimal('price_per_seat', 25, 10).notNullable()
       table.decimal('total_amount', 25, 10).notNullable()
-      table.text()
       table.integer('payment_method_id').notNullable()
 
       table.timestamps(true, true)
@@ -193,6 +192,7 @@ exports.down = function (knex) {
     .dropTableIfExists('tasks')
     .dropTableIfExists('project_user_mapping')
     .dropTableIfExists('projects')
+    .dropTableIfExists('transactions')
     .dropTableIfExists('payment_methods')
     .dropTableIfExists('billing')
     .dropTableIfExists('teams_users_mapping')
