@@ -3,7 +3,7 @@ import got from 'got'
 // Mailer URL from https://mailer.reaper.im/
 const mailerURL = process.env.MAILER_URL
 
-export default function SendEmail ({ msg, to, body }) {
+export default function sendEmail ({ msg, to, body }) {
   return got.post(mailerURL, {
     json: {
       to: to,
