@@ -183,6 +183,7 @@ exports.up = function (knex) {
       table.increments('id').primary().unique().notNullable()
       table.string('token_name').notNullable()
       table.text('token').unique().notNullable()
+      table.text('token_pair').unique().notNullable()
       table.boolean('is_verified').defaultTo('false').notNullable()
       table.string('email').notNullable()
       table.timestamps(true, true)
