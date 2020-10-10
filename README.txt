@@ -22,7 +22,6 @@ This includes the API Routes, the database schemas and libs being used by Busy.
 # Comments (Conversation, Limited to Text Comments for initial scope)
 [-] Schema
 [ ] CRUD 
-[ ] Billing
 
 
 ===ARCH===
@@ -35,7 +34,7 @@ and thus can be used to create any Client / GUI around it, not going to limit yo
 Busy assumes the Database to be PGSQL but since knex takes care of the translations, you can switch the DB to whatever you'd like.
 
 # Routing and Server Base
-I went with ftrouter (https://github.com/barelyhuman/ftrouter) which servers as the router on top of node's native http module to 
+I went with ftrouter (https://github.com/barelyhuman/ftrouter) which serves as the router on top of node's native http module to 
 take care of the REST API. 
 
 # GraphQL?
