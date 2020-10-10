@@ -1,3 +1,5 @@
+const teamUsersConstants = require('../constants/teams_users_mapping')
+
 exports.up = function (knex) {
   return knex.schema
     .createTable('users', function (table) {
@@ -23,6 +25,7 @@ exports.up = function (knex) {
     })
     .createTable('teams', function (table) {
       table.increments('id').unique().primary().notNullable()
+      table.text('slug').notNullable()
       table.string('name').notNullable()
       table.boolean('is_active').notNullable().default(true)
       table.integer('created_by').notNullable()
@@ -38,7 +41,7 @@ exports.up = function (knex) {
     .createTable('teams_users_mapping', function (table) {
       table.integer('team_id').notNullable()
       table.integer('user_id').notNullable()
-
+      table.enu('role', teamUsersConstants.roles)
       table.boolean('is_active').notNullable().default(true)
 
       table.timestamps(true, true)
