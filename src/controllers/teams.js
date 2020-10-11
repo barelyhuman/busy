@@ -26,7 +26,7 @@ TeamsController.create = async ({ req, res }) => {
     await trx('teams').insert(mappingPayload).returning(['id'])
 
     return {
-      data: insertion
+      data: teamInsertion
     }
   } catch (err) {
     await trx.rollback()
@@ -35,20 +35,16 @@ TeamsController.create = async ({ req, res }) => {
 }
 
 TeamsController.get = async ({ req, res }) => {
-  try {
-    const { db, currentUser } = req
+  const { db, currentUser } = req
 
-    const memberOfTeams = await db('teams')
-      .leftJoin('teams', 'teams_users_mapping.team_id', 'teams.user_id')
-      .where({ 'teams.user_id': currentUser.id })
-      .select('teams.*')
+  const memberOfTeams = await db('teams')
+    .leftJoin('teams', 'teams_users_mapping.team_id', 'teams.user_id')
+    .where({ 'teams.user_id': currentUser.id })
+    .select('teams.*')
 
-    return res.send({
-      data: memberOfTeams
-    })
-  } catch (err) {
-    throw err
-  }
+  return res.send({
+    data: memberOfTeams
+  })
 }
 
 export default TeamsController

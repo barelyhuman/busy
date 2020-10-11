@@ -101,10 +101,56 @@ AuthController.accept = async ({ req, res }) => {
   }
 }
 
-AuthController.verify = async () => {
-  // Check verification status for login
-  // Poll Token status and if updated,
-  // send a jwt and then then turn the token is_active to false
+AuthController.verify = async ({ req, res }) => {
+  let trx
+  try {
+    const { db } = req
+    const { token, email } = req.query
+    const normalizeEmail = email.toLowerCase().trim()
+    const matchToken = await db('tokens')
+      .where({
+        token: token,
+        email: normalizeEmail
+      })
+      .leftJoin('users', 'tokens.email', 'users.email')
+      .select('tokens.*', 'users.id as userId')
+
+    if (!matchToken.length) {
+      return new ResponseError({ code: 400, message: 'Invalid token' })
+    }
+
+    const validationToken = matchToken[0]
+
+    if (!validationToken.is_verified) {
+      return res.send({
+        verifed: false
+      })
+    }
+
+    const jwtPayload = {}
+
+    if (validationToken.userId) {
+      jwtPayload.id = validationToken.userId
+    } else {
+      const createdUser = await trx('users')
+        .insert({
+          email: normalizeEmail
+        })
+        .returning(['id'])
+
+      jwtPayload.id = createdUser[0].id
+    }
+
+    const jwtToken = await jwtService.generate(jwtPayload)
+
+    return res.send({
+      verifed: true,
+      token: jwtToken
+    })
+  } catch (err) {
+    await trx.rollback()
+    throw err
+  }
 }
 
 export default AuthController
