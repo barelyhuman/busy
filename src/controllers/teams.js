@@ -25,8 +25,46 @@ TeamsController.create = async ({ req, res }) => {
 
     await trx('teams').insert(mappingPayload).returning(['id'])
 
+    await trx.commit()
+
     return {
       data: teamInsertion
+    }
+  } catch (err) {
+    await trx.rollback()
+    throw err
+  }
+}
+
+TeamsController.delete = async ({ req, res }) => {
+  let trx
+  try {
+    const { db, currentUser } = req
+
+    const { id } = req.params
+
+    trx = await db.transaction()
+
+    const ownedTeam = await trx('teams').where({
+      created_by: currentUser.id,
+      id: id
+    })
+
+    if (!ownedTeam.length) {
+      throw new ResponseError({ code: 400, message: "Invalid Request, coun't find team" })
+    }
+
+    if (ownedTeam) {
+      await trx('teams').where({
+        created_by: currentUser.id,
+        id: id
+      }).del()
+    }
+
+    await trx.commit()
+
+    return {
+      message: 'Deleted'
     }
   } catch (err) {
     await trx.rollback()

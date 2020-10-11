@@ -12,25 +12,25 @@ RequestsController.create = async ({ req, res }) => {
     trx = await db.transaction()
 
     if (!reqPayload.title) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'Please add a title to the request'
       })
     }
     if (!reqPayload.description) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'Please add a description to the request'
       })
     }
     if (!reqPayload.type) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'You forgot to select a type for the request'
       })
     }
     if (projectId) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'Cannot go ahead without a Project'
       })

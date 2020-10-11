@@ -14,11 +14,11 @@ AuthController.registration = async ({ req, res }) => {
     trx = await db.transaction()
 
     if (!email) {
-      return new ResponseError({ code: 400, message: 'Please enter an email' })
+      throw new ResponseError({ code: 400, message: 'Please enter an email' })
     }
 
     if (!tokenName) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'You forgot to generate a tokenName'
       })
@@ -47,6 +47,8 @@ AuthController.registration = async ({ req, res }) => {
       `
     })
 
+    await trx.commit()
+
     return res.send({
       data: {
         token: insertion[0].token
@@ -71,14 +73,14 @@ AuthController.accept = async ({ req, res }) => {
     })
 
     if (!tokenMatch.length) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'Invalid Verification URL'
       })
     }
 
     if (tokenMatch[0].is_verified) {
-      return new ResponseError({
+      throw new ResponseError({
         code: 400,
         message: 'You cannot use the same verification url more than once'
       })
@@ -91,6 +93,8 @@ AuthController.accept = async ({ req, res }) => {
         email: email
       })
       .returning(['id'])
+
+    await trx.commit()
 
     return res.send({
       message: 'Accepted'
@@ -116,7 +120,7 @@ AuthController.verify = async ({ req, res }) => {
       .select('tokens.*', 'users.id as userId')
 
     if (!matchToken.length) {
-      return new ResponseError({ code: 400, message: 'Invalid token' })
+      throw new ResponseError({ code: 400, message: 'Invalid token' })
     }
 
     const validationToken = matchToken[0]
@@ -142,6 +146,8 @@ AuthController.verify = async ({ req, res }) => {
     }
 
     const jwtToken = await jwtService.generate(jwtPayload)
+
+    await trx.commit()
 
     return res.send({
       verifed: true,
