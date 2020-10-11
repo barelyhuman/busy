@@ -6,22 +6,7 @@ This includes the API Routes, the database schemas and libs being used by Busy.
 
 ===TODO===
 
-# Team Management
-[-] Schema 
-[ ] CRUD
-[ ] Billing (Teams to be billed, single users don't)
-
-# Project Management
-[-] Schema 
-[ ] CRUD
-
-# Issue Tracker 
-[-] Schema
-[ ] CRUD 
-
-# Comments (Conversation, Limited to Text Comments for initial scope)
-[-] Schema
-[ ] CRUD 
+Moved to https://github.com/barelyhuman/busy/projects/1
 
 
 ===ARCH===
